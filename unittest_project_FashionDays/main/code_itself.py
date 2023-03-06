@@ -192,7 +192,7 @@ class FashionDaysTest(TestCase):
         expected_email_error = 'Adresa de email este invalida.'
         self.assertEqual(actual_email_error,expected_email_error), f'ERROR, expected {expected_email_error}, but got {actual_email_error}'
 
-# This method checks that after we provide a valid e-mail and password, but no account is present on said e-mail, we receive the expected error
+# This method checks that after we provide a valid e-mail and a password, but no account is present on said e-mail, we receive the expected error
     def test_incorrect_email_and_password(self):
         self.chrome.find_element(*self.AUTHENTICATION_PAGE).click()
         self.chrome.find_element(*self.USERNAME).send_keys('wrong_username@mail.com')
