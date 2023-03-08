@@ -25,6 +25,6 @@ How to run the project:
 - press the green arrow on the side of any method to only run that specific test.
   
   # !! REMINDER !!
-  Some test are run on certain timed campaigns and promotions, so when they expire the test will automatically enter 'except'.
-  I provided those tests with the decorator @unittest.skip , if you uncomment said decorators those respective tests will be skipped.
+  Some tests are run on certain timed campaigns and promotions, so when they expire the test will automatically enter 'except'.
+  I provided those tests with the @unittest.skip , if you uncomment said decorators those respective tests will be skipped.
 
