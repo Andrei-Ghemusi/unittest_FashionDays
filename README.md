@@ -6,15 +6,18 @@ Site tested: https://www.fashiondays.ro/
 
 Project structure:
 - package called main;
-- file in main package called 'code_itself' which contains all of the tests;
-- in the 'code_itself' file you will find the libraries used, a class called 'FashionDaysTest' and several methods which test certain functionalities of the page.
+- file in main package called 'main_page' which contains tests regarding the main site page;
+- file in main package called 'authentication_page' which contains tests regarding the authentication page;
+- file in main package called 'newsletter_page' which contains tests regarding the subscription to the newsletter;
+- file in main package called 'suites', it's role is to run the whole project
 
 Libraries and packages used:
 - unittest;
 - selenium;
 - webdriver_manager;
 - pytest;
-- time.
+- time;
+- HtmlTestRunner. ***This one might not work to pip install, if that's the case, the search for 'html-testRunner' in python packages then install it***
 
 How to run the project:
 - in 'suites' file, press the green arrow on the side of the class to run the whole project;
