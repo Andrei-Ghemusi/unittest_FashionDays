@@ -7,19 +7,6 @@ from main.setups import AuthenticationPageSetupAndTearDown
 from selenium.webdriver import ActionChains
 
 class PositiveTestsAuthenticationPage(AuthenticationPageSetupAndTearDown):
-    LOGIN_BUTTON: tuple[str, str] = (By.XPATH, '//input[@type="submit" and @id="pizokel_customer_submit"]')
-    EMAIL_ERROR: tuple[str, str] = (By.XPATH, '//*[@id="loginform"]/div[1]/div')
-    PASSWORD_ERROR: tuple[str, str] = (By.XPATH, '//*[@id="loginform"]/div[2]/div')
-    EMAIL: tuple[str, str] = (By.XPATH, '//*[@id ="email"]')
-    PASSWORD: tuple[str, str] = (By.XPATH, '//*[@id="password"]')
-    ACCOUNT: tuple[str, str] = (By.XPATH, '//*[@id="customer-account"]/div[1]/i')
-    FACEBOOK_LOGIN_BUTTON: tuple[str, str] = (By.XPATH, '//*[@id="login"]/div[4]/div[2]/button/div/span[2]')
-    FACEBOOK_COOKIES: tuple[str, str] = (By.XPATH, '//button[text()="Allow all cookies"]')
-    FACEBOOK_EMAIL = (By.XPATH, '//*[@id="email"]')
-    FACEBOOK_PASSWORD = (By.XPATH, '//*[@id="pass"]')
-    FACEBOOK_POP_UP_LOGIN = (By.XPATH, '//*[@id="loginbutton"]')
-    LOGOUT = (By.XPATH, '//*[text()="Logout"]')
-
 
     def test_url(self):
         expected_url = 'https://www.fashiondays.ro/customer/authentication'
@@ -62,6 +49,7 @@ class PositiveTestsAuthenticationPage(AuthenticationPageSetupAndTearDown):
         expected_valid_email_error = 'Adresa de email sau parola este incorecta. Te rugam sa introduci o alta combinatie.'
         self.assertEqual(actual_valid_email_error, expected_valid_email_error), f'ERROR, expected {expected_valid_email_error}, but got {actual_valid_email_error}'
 
+
     def test_login_using_facebook(self):
         self.chrome.find_element(*self.FACEBOOK_LOGIN_BUTTON).click()
         all_handles = self.chrome.window_handles
@@ -88,38 +76,41 @@ class PositiveTestsAuthenticationPage(AuthenticationPageSetupAndTearDown):
 
 
 class NegativeTestsAuthenticationPage(AuthenticationPageSetupAndTearDown):
-    # This method checks that we cannot log in after providing no credentials and if we receive the expected errors
+
+    def check_missing_credential_error(self, error):
+        missing_credential_error = self.chrome.find_element(*error).text
+        expected_missing_credential_error = 'Acest camp este obligatoriu'
+        self.assertEqual(missing_credential_error, expected_missing_credential_error), f'Error, expected {expected_missing_credential_error}, but got {missing_credential_error}'
+
     def test_no_credentials_login(self):
         self.chrome.find_element(*self.LOGIN_BUTTON).click()
-        missing_email_error = self.chrome.find_element(*self.EMAIL_ERROR).text
-        missing_password_error = self.chrome.find_element(*self.PASSWORD_ERROR).text
-        expected_missing_credential_error = 'Acest camp este obligatoriu'
-        self.assertEqual(missing_email_error, expected_missing_credential_error), f'Error, expected {expected_missing_credential_error}, but got {missing_email_error}'
-        self.assertEqual(missing_password_error,expected_missing_credential_error), f'Error, expected {expected_missing_credential_error}, but got {missing_password_error}'
+        self.check_missing_credential_error(self.PASSWORD_ERROR)
+        self.check_missing_credential_error(self.EMAIL_ERROR)
 
     def test_valid_email_and_no_password(self):
         self.chrome.find_element(*self.EMAIL).send_keys('pythontestemail083@gmail.com')
         self.chrome.find_element(*self.LOGIN_BUTTON).click()
-        expected_error_message = 'Acest camp este obligatoriu'
-        actual_error_message = self.chrome.find_element(*self.PASSWORD_ERROR).text
-        self.assertEqual(expected_error_message,actual_error_message)
+        self.check_missing_credential_error(self.PASSWORD_ERROR)
 
     def test_password_only_and_no_email(self):
         self.chrome.find_element(*self.PASSWORD).send_keys('TestEmail123')
         self.chrome.find_element(*self.LOGIN_BUTTON).click()
-        expected_error_message = 'Acest camp este obligatoriu'
-        actual_error_message = self.chrome.find_element(*self.EMAIL_ERROR).text
-        self.assertEqual(expected_error_message, actual_error_message)
+        self.check_missing_credential_error(self.EMAIL_ERROR)
 
-
-# This method checks if we receive the expected error after providing an invalid email, and fill in a password
-    def test_invalid_email_and_password(self):
-        self.chrome.find_element(*self.EMAIL).send_keys('wrong_username')
-        self.chrome.find_element(*self.PASSWORD).send_keys('password')
-        self.chrome.find_element(*self.LOGIN_BUTTON).click()
+    def check_invalid_email_error(self):
         actual_email_error = self.chrome.find_element(*self.EMAIL_ERROR).text
         expected_email_error = 'Adresa de email este invalida.'
         self.assertEqual(actual_email_error,expected_email_error), f'ERROR, expected {expected_email_error}, but got {actual_email_error}'
 
+    def test_invalid_email_and_password(self):
+        self.chrome.find_element(*self.EMAIL).send_keys('wrong_username')
+        self.chrome.find_element(*self.PASSWORD).send_keys('password')
+        self.chrome.find_element(*self.LOGIN_BUTTON).click()
+        self.check_invalid_email_error()
 
+    def test_special_characters_email_and_password(self):
+        self.chrome.find_element(*self.EMAIL).send_keys('hgsyf$$%435@ii&&*)()u.com')
+        self.chrome.find_element(*self.PASSWORD).send_keys('paerugehr#$5^.35>>>')
+        self.chrome.find_element(*self.LOGIN_BUTTON).click()
+        self.check_invalid_email_error()
 

@@ -31,7 +31,18 @@ class MainPageSetupAndTearDown(TestCase):
 
 
 class AuthenticationPageSetupAndTearDown(TestCase):
-
+    LOGIN_BUTTON: tuple[str, str] = (By.XPATH, '//input[@type="submit" and @id="pizokel_customer_submit"]')
+    EMAIL_ERROR: tuple[str, str] = (By.XPATH, '//*[@id="loginform"]/div[1]/div')
+    PASSWORD_ERROR: tuple[str, str] = (By.XPATH, '//*[@id="loginform"]/div[2]/div')
+    EMAIL: tuple[str, str] = (By.XPATH, '//*[@id ="email"]')
+    PASSWORD: tuple[str, str] = (By.XPATH, '//*[@id="password"]')
+    ACCOUNT: tuple[str, str] = (By.XPATH, '//*[@id="customer-account"]/div[1]/i')
+    FACEBOOK_LOGIN_BUTTON: tuple[str, str] = (By.XPATH, '//*[@id="login"]/div[4]/div[2]/button/div/span[2]')
+    FACEBOOK_COOKIES: tuple[str, str] = (By.XPATH, '//button[text()="Allow all cookies"]')
+    FACEBOOK_EMAIL: tuple[str, str] = (By.XPATH, '//*[@id="email"]')
+    FACEBOOK_PASSWORD: tuple[str, str] = (By.XPATH, '//*[@id="pass"]')
+    FACEBOOK_POP_UP_LOGIN: tuple[str, str] = (By.XPATH, '//*[@id="loginbutton"]')
+    LOGOUT: tuple[str, str] = (By.XPATH, '//*[text()="Logout"]')
     def setUp(self) -> None:
         self.chrome = webdriver.Chrome(executable_path=ChromeDriverManager().install())
         self.chrome.maximize_window()
