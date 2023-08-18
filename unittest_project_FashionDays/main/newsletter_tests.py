@@ -1,83 +1,125 @@
 import time
-from unittest import TestCase
-from selenium import webdriver
+from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
-from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.remote.webelement import WebElement
 import unittest
+from main.setups import MainPageSetupAndTearDown
+from main.non_functional_tests import NonFunctionalTestsMainPage
 
 
-class NewsletterTests(TestCase):
-    NEWSLETTER_EMAIL = (By.XPATH, '//*[@id="form_email"]')
-    CHECKBOX_AGE = (By.XPATH, '//*[@id="newsletter-form"]/div[2]/div[1]/div/div[2]/label/span')
-    SUBMIT_TO_NEWSLETTER = (By.XPATH, '//*[@id="form_saveMen"]')
-    MAIL_NEWSLETTER_ERROR = (By.XPATH, '//*[@id="newsletter-form"]/div[1]/span/div[2]/span[2]')
-    NO_CHECKBOX_ERROR = (By.XPATH, '//*[@id="newsletter-form"]/div[2]/div[1]/div/div[1]/div[2]/span[2]')
-    CAPTCHA = (By.XPATH, '//div[@class="g-recaptcha"]')
+class PositiveNewsletterTests(MainPageSetupAndTearDown):
+
+    def check_element_presence_and_text(self, element, expected_text):
+        actual_text = element.text
+        self.scroll_to_element(element)
+        is_present: bool = element.is_displayed()
+        self.assertTrue(is_present)
+        self.assertIn(expected_text, actual_text)
+
+    def test_for_women_button(self):
+        button_women: WebElement = self.chrome.find_element(*self.FOR_WOMEN_SUBMIT)
+        expected_text: str = 'OFERTE PENTRU FEMEI'
+        self.check_element_presence_and_text(button_women, expected_text)
+
+    def test_for_men_button(self):
+        button_men: WebElement = self.chrome.find_element(*self.FOR_MEN_SUBMIT)
+        expected_text: str = 'OFERTE PENTRU BARBATI'
+        self.check_element_presence_and_text(button_men, expected_text)
+
+    def test_checkbox(self):
+        checkbox: WebElement = self.chrome.find_element(*self.CHECKBOX_AGE)
+        expected_text: str = 'Confirm ca am peste 16 ani.'
+        self.check_element_presence_and_text(checkbox, expected_text)
+
+    def test_site_protection_and_privacy(self):
+        protection: WebElement = self.chrome.find_element(*self.SITE_PROTECTION_TEXT)
+        expected_text: str = 'This site is protected by reCAPTCHA and the Google'
+        self.check_element_presence_and_text(protection, expected_text)
 
 
-    # this is the setup method, it will run at the beginning of any test
-    def setUp(self) -> None:
-        self.chrome = webdriver.Chrome(executable_path=ChromeDriverManager().install())
-        self.chrome.maximize_window()
-        self.chrome.get('https://www.fashiondays.ro/')
-        # self.chrome.find_element(By.XPATH, '//*[text()="Respinge"]').click()
-        self.chrome.implicitly_wait(2)
+    def check_element_text_and_url_after_click(self, element, expected_text, expected_url):
+        self.scroll_to_element(element)
+        actual_text: str = element.text
+        self.assertIn(expected_text, actual_text)
+        element.click()
+        actual_url: str = self.chrome.current_url
+        self.assertEqual(expected_url, actual_url)
 
-    # this is the tearDown, it'll run at the END of any and every test
-    def tearDown(self) -> None:
-        self.chrome.quit()
+    def test_click_privacy_policy(self):
+        privacy_policy_element: WebElement = self.chrome.find_element(*self.PRIVACY_POLICY)
+        expected_url: str = 'https://policies.google.com/privacy'
+        expected_text: str = 'Privacy Policy'
+        self.check_element_text_and_url_after_click(privacy_policy_element, expected_text, expected_url)
 
+    def test_click_terms_of_service(self):
+        terms_of_service_element: WebElement = self.chrome.find_element(*self.TERMS_OF_SERVICE)
+        expected_url: str = 'https://policies.google.com/terms'
+        expected_text: str = 'Terms of Service'
+        self.check_element_text_and_url_after_click(terms_of_service_element, expected_text, expected_url)
 
-# This method checks that if the user tries to subscribe to the newsletter without inserting an e-mail, they will receive the expected error
-    def test_newsletter_no_email(self):
-        try:
-            self.chrome.find_element(By.XPATH, '//*[@id="accept-cookie-policy"]').click() # if this is not implemented then it fails to click on submit
-                                                                                          # after accepting once, the system might not show the cookies agreement, hence the try/except
-        except:
-            pass
-        self.chrome.find_element(*self.SUBMIT_TO_NEWSLETTER).click()
-        time.sleep(2) # the sleep gives the page time to load up the error message
-        actual_error = self.chrome.find_element(*self.MAIL_NEWSLETTER_ERROR).text
-        expected_error = 'Te rugam sa introduci o adresa de email valida.'
-        self.assertEqual(actual_error, expected_error), f'ERROR, expected {expected_error}, but got {actual_error}'
-
-# This method checks the error, if it appears, and the text, if the user inserted e-mail is invalid
-    def test_newsletter_invalid_email(self):
-        try:
-            self.chrome.find_element(By.XPATH, '//*[@id="accept-cookie-policy"]').click() #if this is not implemented then it fails to click on submit
-        except:
-            pass
-        self.chrome.find_element(*self.NEWSLETTER_EMAIL).send_keys('wrongemail')
+    def check_captcha_is_displayed(self, element, tuple_value):
+        self.scroll_to_element(element)
+        self.chrome.find_element(*self.NEWSLETTER_EMAIL).send_keys('pythontestemail083@gmail.com')
         self.chrome.find_element(*self.CHECKBOX_AGE).click()
-        time.sleep(2)
-        self.chrome.find_element(*self.SUBMIT_TO_NEWSLETTER).click()
-        actual_error = self.chrome.find_element(*self.MAIL_NEWSLETTER_ERROR).text
-        expected_error = 'Te rugam sa introduci o adresa de email valida.'
-        self.assertEqual(actual_error, expected_error), f'ERROR, expected {expected_error}, but got {actual_error}'
+        self.chrome.find_element(*tuple_value).click()
+        captcha_display: bool = self.chrome.find_element(*self.CAPTCHA).is_displayed()
+        self.assertTrue(captcha_display, 'ERROR, CAPTCHA is not displayed')
 
-# This method checks the error, in case the inserted e-mail is valid, but the age checkbox is not checked
+    def test_captcha_newsletter_correct_email_checkbox_on_submit_for_men(self):
+        element = self.chrome.find_element(*self.FOR_MEN_SUBMIT)
+        self.check_captcha_is_displayed(element, self.FOR_MEN_SUBMIT)
+
+    def test_captcha_newsletter_correct_email_checkbox_on_submit_for_women(self):
+        element = self.chrome.find_element(*self.FOR_WOMEN_SUBMIT)
+        self.check_captcha_is_displayed(element, self.FOR_WOMEN_SUBMIT)
+
+
+class NegativeNewsletterTests(MainPageSetupAndTearDown):
+
+    def whatever4(self, expected_error, email=None, checkbox=None):
+        button_women: WebElement = self.chrome.find_element(*self.FOR_WOMEN_SUBMIT)
+        self.scroll_to_element(button_women)
+        if email is None:
+            pass
+        else:
+            self.chrome.find_element(*self.NEWSLETTER_EMAIL).send_keys(email)
+        self.chrome.find_element(*self.FOR_MEN_SUBMIT).click()
+        if checkbox is None:
+            pass
+        else:
+            self.chrome.find_element(*checkbox).click()
+        actual_error: str = self.chrome.find_element(*self.MAIL_NEWSLETTER_ERROR).text
+        self.assertEqual(expected_error, actual_error, f'ERROR, expected {expected_error}, but got {actual_error}')
+
+
+    def test_newsletter_no_email_checkbox_off(self):
+        expected_error = 'Te rugam sa introduci o adresa de email valida.'
+        self.whatever4(expected_error)
+
+
+    def test_newsletter_no_email_checkbox_on(self):
+        expected_error = 'Te rugam sa introduci o adresa de email valida.'
+        self.whatever4(expected_error, None, self.CHECKBOX_AGE)
+
+
+    def test_newsletter_invalid_email_letters_only_checkbox_on(self):
+        email = 'wrong-email'
+        expected_error = 'Te rugam sa introduci o adresa de email valida.'
+        self.whatever4(expected_error, email, self.CHECKBOX_AGE)
+
+    def test_newsletter_invalid_email_letters_only_checkbox_off(self):
+        self.whatever4(expected_error='Te rugam sa introduci o adresa de email valida.', email='wrong-email')
+
+
+    def test_newsletter_invalid_email_special_characters_checkbox_on(self):
+        self.whatever4(expected_error='Te rugam sa introduci o adresa de email valida.', email='%$#^&&%$%&>>@@@%$^7..', checkbox=self.CHECKBOX_AGE)
+
+
+    def test_newsletter_invalid_email_special_characters_checkbox_off(self):
+        self.whatever4(expected_error='Te rugam sa introduci o adresa de email valida.', email='%$#^&&%$%&>>@@@%$^7..')
+
+
     def test_newsletter_valid_email_checkbox_off(self):
-        try:
-            self.chrome.find_element(By.XPATH, '//*[@id="accept-cookie-policy"]').click() #if this is not implemented then it fails to click on submit
-        except:
-            pass
-        self.chrome.find_element(*self.NEWSLETTER_EMAIL).send_keys('wrongemail@test.com')
-        self.chrome.find_element(*self.SUBMIT_TO_NEWSLETTER).click()
-        actual_error = self.chrome.find_element(*self.NO_CHECKBOX_ERROR).text
+        email = 'pythontestemail083@gmail.com'
         expected_error = 'Trebuie sa ai cel putin 16 ani pentru a te abona.'
-        self.assertEqual(actual_error, expected_error), f'ERROR, expected {expected_error}, but got {actual_error}'
-
-# This method checks that in the case the e-mail is valid and the checkbox is checked, after clicking on submit, that CAPTCHA will appear
-    # !! REMINDER !!
-    # There is a chance that CAPTCHA may not appear and the subscription will go through, this happened very few times
-    def test_newsletter_valid_email_checkbox_on(self):
-        try:
-            self.chrome.find_element(By.XPATH, '//*[@id="accept-cookie-policy"]').click() #if this is not implemented then it fails to click on submit
-        except:
-            pass
-        self.chrome.find_element(*self.NEWSLETTER_EMAIL).send_keys('wrongemail@test.com')
-        self.chrome.find_element(*self.CHECKBOX_AGE).click()
-        self.chrome.find_element(*self.SUBMIT_TO_NEWSLETTER).click()
-        time.sleep(5)
-        captcha_display = self.chrome.find_element(*self.CAPTCHA)
-        assert captcha_display.is_displayed() == True, 'ERROR, CAPTCHA is not displayed'
+        self.whatever4(expected_error, email)

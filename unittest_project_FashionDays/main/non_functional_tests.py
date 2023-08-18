@@ -1,7 +1,10 @@
 from typing import Tuple
 from unittest import TestCase
+
+from selenium.webdriver import ActionChains
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
+from selenium.webdriver.remote.webelement import WebElement
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium import webdriver
 import subprocess
@@ -9,6 +12,7 @@ import os
 
 
 class NonFunctionalTestsMainPage(TestCase):
+    action_chains: ActionChains
     PERFORMANCE: tuple[str, str] = (By.XPATH, '//*[@id="performance"]/div[1]/div[1]/div[1]/a/div[2]')
     ACCESSIBILITY: tuple[str, str] = (By.XPATH, '//*[@id="accessibility"]/div[1]/div[1]/a/div[2]')
     BEST_PRACTICES: tuple[str, str] = (By.XPATH, '//*[@id="best-practices"]/div[1]/div[1]/a/div[2]')
@@ -28,7 +32,6 @@ class NonFunctionalTestsMainPage(TestCase):
     def setUp(self):
         self.chrome = webdriver.Chrome(executable_path=ChromeDriverManager().install())
         self.chrome.maximize_window()
-        self.action_chains = ActionChains(self.chrome)
         self.get_html_report()
         # here we call the method to open the html report for every test
 
@@ -49,6 +52,7 @@ class NonFunctionalTestsMainPage(TestCase):
 
     # this method is made to scroll to elements that we want
     def scroll_to_element(self, element):
+        self.action_chains = ActionChains(self.chrome)
         self.action_chains.move_to_element(element).perform()
 
     """
@@ -65,25 +69,29 @@ class NonFunctionalTestsMainPage(TestCase):
 
     # this method checks the performance score
     def test_performance_score(self):
-        self.scroll_to_element(self.chrome.find_element(*self.PERFORMANCE))
+        performance_score: WebElement = self.chrome.find_element(*self.PERFORMANCE)
+        self.scroll_to_element(performance_score)
         # here we called the scroll_to_element method to scroll to the performance score element
-        self.assert_score(self.chrome.find_element(*self.PERFORMANCE), 1)
+        self.assert_score(performance_score, 1)
         # then we call the assert_score method to check if the actual score is greater or equal to the expected one
 
     # this method checks the accessibility score
     def test_accessibility_score(self):
-        self.scroll_to_element(self.chrome.find_element(*self.ACCESSIBILITY))
-        self.assert_score(self.chrome.find_element(*self.ACCESSIBILITY), 1)
+        accessibility_score: WebElement = self.chrome.find_element(*self.ACCESSIBILITY)
+        self.scroll_to_element(accessibility_score)
+        self.assert_score(accessibility_score, 1)
 
     # this method checks the best practices score
     def test_best_practices_score(self):
-        self.scroll_to_element(self.chrome.find_element(*self.BEST_PRACTICES))
-        self.assert_score(self.chrome.find_element(*self.BEST_PRACTICES), 1)
+        best_practices_score: WebElement = self.chrome.find_element(*self.BEST_PRACTICES)
+        self.scroll_to_element(best_practices_score)
+        self.assert_score(best_practices_score, 1)
 
     # this method checks the seo score
     def test_seo_score(self):
-        self.scroll_to_element(self.chrome.find_element(*self.SEO))
-        self.assert_score(self.chrome.find_element(*self.SEO), 1)
+        seo_score: WebElement = self.chrome.find_element(*self.SEO)
+        self.scroll_to_element(seo_score)
+        self.assert_score(seo_score, 1)
 
 
 
