@@ -21,14 +21,16 @@ class PositiveNewsletterTests(MainPageSetupAndTearDown):
     # This method checks if the 'submit_for_women' button is displayed and has the expected text
     def test_displayed_text_for_women_button(self):
         button_women: WebElement = self.chrome.find_element(*self.FOR_WOMEN_SUBMIT)
-        self.check_element_presence_and_text(button_women, expected_text='OFERTE PENTRU FEMEI') # this is just preference if we want to create the variable before or create it inside the argument
+        self.check_element_presence_and_text(button_women,
+                                             expected_text='OFERTE PENTRU FEMEI') # this is just preference if we want to create the variable before or create it inside the argument
         # we add the desired arguments and call the method
 
 
     # This method checks if the 'submit_for_men' button is displayed and has the expected text
     def test_displayed_text_for_men_button(self):
         button_men: WebElement = self.chrome.find_element(*self.FOR_MEN_SUBMIT)
-        self.check_element_presence_and_text(button_men, expected_text='OFERTE PENTRU BARBATI')
+        self.check_element_presence_and_text(button_men,
+                                             expected_text='OFERTE PENTRU BARBATI')
 
 
     # This method checks if the checkbox is displayed and has the expected text
@@ -148,23 +150,27 @@ class NegativeNewsletterTests(MainPageSetupAndTearDown):
 
     # This method tests that when having an invalid email input and checkbox off, after clicking on submit we receive the expected error
     def test_newsletter_invalid_email_letters_only_checkbox_off(self):
-        self.submission_with_various_inputs(expected_error='Te rugam sa introduci o adresa de email valida.', error_locator=self.MAIL_NEWSLETTER_ERROR ,
+        self.submission_with_various_inputs(expected_error='Te rugam sa introduci o adresa de email valida.',
+                                            error_locator=self.MAIL_NEWSLETTER_ERROR ,
                                             email='wrong-email')
 
 
     # This method tests that when having an invalid email input with special characters only and checkbox on, after clicking on submit we receive the expected error
     def test_newsletter_invalid_email_special_characters_checkbox_on(self):
-        self.submission_with_various_inputs(expected_error='Te rugam sa introduci o adresa de email valida.', error_locator=self.MAIL_NEWSLETTER_ERROR,
+        self.submission_with_various_inputs(expected_error='Te rugam sa introduci o adresa de email valida.',
+                                            error_locator=self.MAIL_NEWSLETTER_ERROR,
                                             email='%$#^&&%$%&>>@@@%$^7..', checkbox=self.CHECKBOX_AGE)
 
 
     # This method tests that when having an invalid email input with special characters only and checkbox off, after clicking on submit we receive the expected error
     def test_newsletter_invalid_email_special_characters_checkbox_off(self):
-        self.submission_with_various_inputs(expected_error='Te rugam sa introduci o adresa de email valida.', error_locator=self.MAIL_NEWSLETTER_ERROR,
+        self.submission_with_various_inputs(expected_error='Te rugam sa introduci o adresa de email valida.',
+                                            error_locator=self.MAIL_NEWSLETTER_ERROR,
                                             email='%$#^&&%$%&>>@@@%$^7..')
 
 
     # This method tests that when having a correct email input and checkbox off, after clicking on submit we receive the expected error
     def test_newsletter_valid_email_checkbox_off(self):
-        self.submission_with_various_inputs(expected_error='Trebuie sa ai cel putin 16 ani pentru a te abona.', error_locator=self.NO_CHECKBOX_ERROR,
+        self.submission_with_various_inputs(expected_error='Trebuie sa ai cel putin 16 ani pentru a te abona.',
+                                            error_locator=self.NO_CHECKBOX_ERROR,
                                             email='pythontestemail083@gmail.com')

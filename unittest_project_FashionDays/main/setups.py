@@ -4,8 +4,11 @@ from selenium.common import NoSuchElementException
 from selenium.webdriver import ActionChains
 from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.remote.webelement import WebElement
 from webdriver_manager.chrome import ChromeDriverManager
 import requests
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 class MainPageSetupAndTearDown(TestCase):
     chrome: WebDriver
@@ -40,9 +43,11 @@ class MainPageSetupAndTearDown(TestCase):
     def tearDown(self) -> None:
         self.chrome.quit()
 
+    # this method scrolls to a certain element
     def scroll_to_element(self, element):
         self.action_chains = ActionChains(self.chrome)
         self.action_chains.move_to_element(element).perform()
+
 
 
 class AuthenticationPageSetupAndTearDown(TestCase):
@@ -75,4 +80,7 @@ class AuthenticationPageSetupAndTearDown(TestCase):
 
     def tearDown(self) -> None:
         self.chrome.quit()
+
+    def wait_for_element_visibility(self, element_locator, timeout=10):
+        return WebDriverWait(self.chrome, timeout).until(EC.visibility_of_element_located(element_locator))
 

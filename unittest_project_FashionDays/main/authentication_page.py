@@ -1,7 +1,5 @@
 import time
 from selenium.webdriver.remote.webelement import WebElement
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from main.setups import AuthenticationPageSetupAndTearDown
 from selenium.webdriver import ActionChains
@@ -29,12 +27,12 @@ class PositiveTestsAuthenticationPage(AuthenticationPageSetupAndTearDown):
     # this method is NOT a test, we will we calling it in tests to checks the state transition from logged in to logged out or vice versa
     def account_status_check(self):
         time.sleep(1)
-        # I added a sleep of 1 sec because neither the implicit nor explicit wait would work here
+        # # I added a sleep of 1 sec because neither the implicit nor explicit wait would work here
         self.chrome.find_element(*self.ACCOUNT).click()
         actual_url: str = self.chrome.current_url
         expected_url: str = 'https://www.fashiondays.ro/customer/settings/'
         self.assertEqual(expected_url, actual_url)
-        # here we clicked on the account button and then we check that we are being sent on the correct link
+        # here we clicked on the account button, then we check that we are being sent on the correct link
         actual_text = self.chrome.find_element(By.XPATH, '//*[text()="Contul Meu"]').text
         expected_text: str = 'Contul Meu'
         self.assertEqual(expected_text, actual_text)
@@ -53,8 +51,8 @@ class PositiveTestsAuthenticationPage(AuthenticationPageSetupAndTearDown):
         self.chrome.find_element(*self.EMAIL).send_keys('pythontestemail083@gmail.com')
         self.chrome.find_element(*self.PASSWORD).send_keys('password')
         self.chrome.find_element(*self.LOGIN_BUTTON).click()
-        email_error = WebDriverWait(self.chrome, 5).until(EC.visibility_of_element_located(self.EMAIL_ERROR))
-        # I added a explicit wait of 5 secs here because it would take a few seconds for the message to appear
+        email_error = self.wait_for_element_visibility(self.EMAIL_ERROR)
+        # I added an explicit wait of 10 secs here because it would take a few seconds for the message to appear
         actual_email_error: str = email_error.text
         expected_email_error: str = 'Adresa de email sau parola este incorecta. Te rugam sa introduci o alta combinatie.'
         self.assertEqual(expected_email_error, actual_email_error), f'ERROR, expected {expected_email_error}, but got {actual_email_error}'
@@ -73,7 +71,7 @@ class PositiveTestsAuthenticationPage(AuthenticationPageSetupAndTearDown):
         self.chrome.find_element(*self.FACEBOOK_EMAIL).send_keys('pythontestemail083@gmail.com')
         self.chrome.find_element(*self.FACEBOOK_PASSWORD).send_keys('TestEmail123')
         self.chrome.find_element(*self.FACEBOOK_POP_UP_LOGIN).click()
-        # we input the correct credentials and click on the log in button
+        # we input the correct credentials and click on the login button
         time.sleep(5)
         # it takes a while for the system to log us in so, up to 5 seconds, hence why I added a time.sleep(5)
 
@@ -120,7 +118,7 @@ class NegativeTestsAuthenticationPage(AuthenticationPageSetupAndTearDown):
         self.chrome.find_element(*self.LOGIN_BUTTON).click()
         self.check_missing_credential_error(self.EMAIL_ERROR)
 
-    def check_invalid_email_error(self):
+    def check_invalid_email_error_message(self):
         actual_email_error: str = self.chrome.find_element(*self.EMAIL_ERROR).text
         expected_email_error: str = 'Adresa de email este invalida.'
         self.assertEqual(actual_email_error,expected_email_error), f'ERROR, expected {expected_email_error}, but got {actual_email_error}'
@@ -129,11 +127,11 @@ class NegativeTestsAuthenticationPage(AuthenticationPageSetupAndTearDown):
         self.chrome.find_element(*self.EMAIL).send_keys('wrong_username')
         self.chrome.find_element(*self.PASSWORD).send_keys('password')
         self.chrome.find_element(*self.LOGIN_BUTTON).click()
-        self.check_invalid_email_error()
+        self.check_invalid_email_error_message()
 
     def test_special_characters_email_and_password(self):
         self.chrome.find_element(*self.EMAIL).send_keys('hgsyf$$%435@ii&&*)()u.com')
         self.chrome.find_element(*self.PASSWORD).send_keys('paerugehr#$5^.35>>>')
         self.chrome.find_element(*self.LOGIN_BUTTON).click()
-        self.check_invalid_email_error()
+        self.check_invalid_email_error_message()
 
