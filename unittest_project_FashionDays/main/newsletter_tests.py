@@ -1,6 +1,6 @@
 from selenium.webdriver.remote.webelement import WebElement
 from main.setups import MainPageSetupAndTearDown
-
+from main.test_methods import TestUtils
 
 # This class contains positive and usability tests for the Newsletter
 class PositiveNewsletterTests(MainPageSetupAndTearDown):

@@ -1,3 +1,4 @@
+from selenium.common import NoSuchElementException
 from selenium.webdriver import ActionChains
 from selenium.webdriver.remote.webdriver import WebDriver
 import requests
@@ -58,6 +59,27 @@ class TestUtils:
         actions = ActionChains(driver)
         account_element: WebElement = driver.find_element(*element)
         actions.move_to_element(account_element).perform()
+
+    # this method scrolls to a certain element
+    @staticmethod
+    def scroll_to_element(driver, element):
+        driver.action_chains = ActionChains(driver)
+        driver.action_chains.move_to_element(driver.find_element(*element)).perform()
+
+    @staticmethod
+    def assert_is_promotion_displayed(driver, element):
+        unavailable: str = 'Promotion is no longer available!'
+        try:
+            promotion_display: WebElement = driver.find_element(*element)
+            promotion_display.is_displayed()
+            assert promotion_display, f'{unavailable}'
+        except NoSuchElementException:
+            pass
+
+    @staticmethod
+    def switch_page(driver, page_index: int):
+        page: str = driver.window_handles[page_index]
+        driver.switch_to.window(page)
 
 
 

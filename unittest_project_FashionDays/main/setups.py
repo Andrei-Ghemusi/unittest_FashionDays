@@ -12,6 +12,26 @@ import requests
 
 class MainPageSetupAndTearDown(TestCase):
     chrome: WebDriver
+    AUTHENTICATION_PAGE: tuple[str, str] = (By.CSS_SELECTOR, '.icon-fdux_profile')
+    CLOTHING: tuple[str, str] = (By.XPATH, '//*[@id="main-menu"]/div[2]/nav[1]/ul/li[2]/span')
+    DRESSES: tuple[str, str] = (By.XPATH, '//*[@id="main-menu"]/div[2]/nav[1]/ul/li[2]/div/div[2]/a[2]/span[1]')
+    SHOES: tuple[str, str] = (By.XPATH, '//*[@id="main-menu"]/div[2]/nav[1]/ul/li[3]/span')
+    SANDALS: tuple[str, str] = (By.XPATH, '//*[@id="main-menu"]/div[2]/nav[1]/ul/li[3]/div/div[2]/a[3]/span[1]')
+    OUTLET: tuple[str, str] = (By.XPATH, '//*[@id="main-menu"]/div[2]/nav[1]/ul/li[8]/span')
+    OUTLET_PRICES: tuple[str, str] = (By.XPATH, '//span[@class="sale-price new-price"]')
+    UNDER50: tuple[str, str] = (By.XPATH, '//*[@id="main-menu"]/div[2]/nav[1]/ul/li[8]/div/div[2]/a[15]/span')
+    END_OF_SEASON_PROMOTION: tuple[str, str] = (By.XPATH, '//*[@id="homepage"]/div[2]/div[2]/div/a[1]/div/div[1]/h1')
+    GARAGE_SALE_PROMOTION: tuple[str, str] = (By.XPATH, '//*[@id="homepage"]/div[3]/div/div/div/div/a/img[1]')
+    GOODBYE_SUMMER_PROMOTION: tuple[str, str] = (By.XPATH, '//*[@id="homepage"]/div[8]/div/div/div/div/a/img[1]')
+    ANPC: tuple[str, str] = (By.XPATH, '//*[@id="support-links"]/div[1]/ul/li[10]/a')
+    MEN: tuple[str, str] = (By.XPATH, '//*[text()="Barbati"]')
+    WOMEN: tuple[str, str] = (By.XPATH, '//*[@id="tag-menu"]/ul/li[1]/a')
+    GIRLS: tuple[str, str] = (By.XPATH, '//*[@id="tag-menu"]/ul/li[3]/a')
+    BOYS: tuple[str, str] = (By.XPATH, '//*[text() = "Baieti"]')
+    ANPC_TEXT: tuple[str, str] = (By.XPATH, '//*[text()="Soluționarea Alternativă a Litigiilor"]')
+    FACEBOOK: tuple[str, str] = (By.XPATH, '//*[@id="footer"]/div[1]/div/div/div[3]/div[2]/div[2]/div[1]/ul/li[1]/a')
+    INSTAGRAM: tuple[str, str] = (By.XPATH, '//*[@id="footer"]/div[1]/div/div/div[3]/div[2]/div[2]/div[1]/ul/li[2]/a')
+    TIKTOK: tuple[str, str] = (By.XPATH, '//*[@id="footer"]/div[1]/div/div/div[3]/div[2]/div[2]/div[1]/ul/li[3]/a')
     NEWSLETTER_EMAIL: tuple[str, str]  = (By.XPATH, '//*[@id="form_email"]')
     CHECKBOX_AGE: tuple[str, str]  = (By.XPATH, '//*[@id="newsletter-form"]/div[2]/div[1]/div/div[2]/label/span')
     FOR_MEN_SUBMIT: tuple[str, str]  = (By.XPATH, '//*[@id="form_saveMen"]')
@@ -22,6 +42,7 @@ class MainPageSetupAndTearDown(TestCase):
     SITE_PROTECTION_TEXT: tuple[str, str]  = (By.XPATH, '//*[@id="newsletter-form"]/div[2]/div[3]/div[3]/small')
     PRIVACY_POLICY: tuple[str, str]  = (By.XPATH, '//*[@id="newsletter-form"]/div[2]/div[3]/div[3]/small/a[1]')
     TERMS_OF_SERVICE: tuple[str, str]  = (By.XPATH, '//*[@id="newsletter-form"]/div[2]/div[3]/div[3]/small/a[2]')
+    ANPC_COOKIES: tuple[str, str] = (By.XPATH, '//*[text()="Acceptă"]')
 
     # this is the setup method, it will run at the beginning of any test
     def setUp(self) -> None:
@@ -43,11 +64,6 @@ class MainPageSetupAndTearDown(TestCase):
     def tearDown(self) -> None:
         self.chrome.quit()
 
-    # this method scrolls to a certain element
-    def scroll_to_element(self, element):
-        self.action_chains = ActionChains(self.chrome)
-        self.action_chains.move_to_element(element).perform()
-
 
 
 class AuthenticationPageSetupAndTearDown(TestCase):
@@ -66,7 +82,7 @@ class AuthenticationPageSetupAndTearDown(TestCase):
     FACEBOOK_PASSWORD: tuple[str, str] = (By.XPATH, '//*[@id="pass"]')
     FACEBOOK_POP_UP_LOGIN: tuple[str, str] = (By.XPATH, '//*[@id="loginbutton"]')
     LOGOUT: tuple[str, str] = (By.XPATH, '//*[text()="Logout"]')
-    CONTUL_MEU_TEXT = (By.XPATH, '//*[text()="Contul Meu"]')
+    CONTUL_MEU_TEXT: tuple[str, str] = (By.XPATH, '//*[text()="Contul Meu"]')
 
     def setUp(self) -> None:
         self.chrome = webdriver.Chrome(executable_path=ChromeDriverManager().install())
