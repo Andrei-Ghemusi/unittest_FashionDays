@@ -1,15 +1,14 @@
-from typing import Tuple
 from unittest import TestCase
 from selenium import webdriver
 from selenium.common import NoSuchElementException
-from selenium.webdriver import ActionChains
 from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.remote.webelement import WebElement
 from webdriver_manager.chrome import ChromeDriverManager
 import requests
 
 
+# This class has the setup and teardown methods used for the tests on the Main Page
+# It also contains all the tuples used for the tests on the Main Page
 class MainPageSetupAndTearDown(TestCase):
     chrome: WebDriver
     AUTHENTICATION_PAGE: tuple[str, str] = (By.CSS_SELECTOR, '.icon-fdux_profile')
@@ -66,6 +65,8 @@ class MainPageSetupAndTearDown(TestCase):
 
 
 
+# This class has the setup and teardown methods used for the tests on the Authentication Page
+# It also contains all the tuples used for the tests on the Authentication Page
 class AuthenticationPageSetupAndTearDown(TestCase):
     LOGIN_BUTTON: tuple[str, str] = (By.XPATH, '//input[@type="submit" and @id="pizokel_customer_submit"]')
     EMAG_LOGIN_BUTTON: tuple[str, str] = (By.XPATH, '//*[@id="login"]/div[4]/div[1]/button/div/span[2]')

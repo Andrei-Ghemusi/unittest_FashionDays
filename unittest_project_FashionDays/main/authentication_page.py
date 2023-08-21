@@ -1,7 +1,7 @@
 # Import necessary modules and classes
 import time
 from main.setups import AuthenticationPageSetupAndTearDown
-from main.test_methods import TestUtils
+from main.utility_methods import TestUtils
 
 
 # This class has positive tests performed on the Authentication page
@@ -91,7 +91,7 @@ class PositiveTestsAuthenticationPage(AuthenticationPageSetupAndTearDown):
     # Test case: Log out after logging in
     def test_logout(self):
         self.test_valid_credentials_login()
-        TestUtils.hover_over_element(self.chrome, self.ACCOUNT)
+        TestUtils.move_to_element(self.chrome, self.ACCOUNT)
         TestUtils.click_element(self.chrome, self.LOGOUT)
         TestUtils.click_element(self.chrome, self.ACCOUNT)
         TestUtils.assert_current_url(self.chrome, expected_url='https://www.fashiondays.ro/customer/authentication')

@@ -1,6 +1,6 @@
 from selenium.common import NoSuchElementException
 from main.setups import MainPageSetupAndTearDown
-from main.test_methods import TestUtils
+from main.utility_methods import TestUtils
 
 
 # This class contains tests that are ran on the main page
@@ -56,14 +56,14 @@ class MainPageTests(MainPageSetupAndTearDown):
 
     # Test case: Hover over clothing, click on dresses and verify the page URL
     def test_hover_over_clothing(self):
-        TestUtils.hover_over_element(self.chrome, element=self.CLOTHING)
+        TestUtils.move_to_element(self.chrome, element=self.CLOTHING)
         TestUtils.click_element(self.chrome, element=self.DRESSES)
         TestUtils.assert_current_url(self.chrome, expected_url='https://www.fashiondays.ro/g/femei-/imbracaminte-rochii')
 
 
     # Test case: Hover over shoes, click on sandals and verify the page URL
     def test_hover_over_shoes(self):
-        TestUtils.hover_over_element(self.chrome, element=self.SHOES)
+        TestUtils.move_to_element(self.chrome, element=self.SHOES)
         TestUtils.click_element(self.chrome, element=self.SANDALS)
         TestUtils.assert_current_url(self.chrome, expected_url='https://www.fashiondays.ro/g/femei-/incaltaminte-sandale')
 
@@ -80,7 +80,7 @@ class MainPageTests(MainPageSetupAndTearDown):
             Expected Result:
                 The user is redirected to the outlet page with products displayed, and all prices are under 50 lei.
         """
-        TestUtils.hover_over_element(self.chrome, element=self.OUTLET)
+        TestUtils.move_to_element(self.chrome, element=self.OUTLET)
         TestUtils.click_element(self.chrome, element=self.UNDER50)
         TestUtils.assert_current_url(self.chrome, expected_url='https://www.fashiondays.ro/s/under-15-euro-menu-mmse-w')
         prices_list = self.chrome.find_elements(*self.OUTLET_PRICES)
@@ -121,9 +121,9 @@ class MainPageTests(MainPageSetupAndTearDown):
             Expected Result:
                 The user is redirected to the "ANPC" page explaining "SAL" with the correct URL, page title, and relevant text.
         """
-        TestUtils.scroll_to_element(self.chrome, element=self.ANPC)
+        TestUtils.move_to_element(self.chrome, element=self.ANPC)
         TestUtils.click_element(self.chrome, self.ANPC)
-        TestUtils.switch_page(self.chrome, page_index=1)
+        TestUtils.switch_window(self.chrome, page_index=1)
         try:
             TestUtils.click_element(self.chrome, element=self.ANPC_COOKIES)
         except NoSuchElementException:
@@ -138,9 +138,9 @@ class MainPageTests(MainPageSetupAndTearDown):
 
     # Test case: Verify the Facebook link
     def test_verify_facebook_link(self):
-        TestUtils.scroll_to_element(self.chrome, element=self.FACEBOOK)
+        TestUtils.move_to_element(self.chrome, element=self.FACEBOOK)
         TestUtils.click_element(self.chrome, element=self.FACEBOOK)
-        TestUtils.switch_page(self.chrome, page_index=1)
+        TestUtils.switch_window(self.chrome, page_index=1)
         TestUtils.assert_status_code(url='https://www.facebook.com/fashiondays.romania/', expected_code=200)
         TestUtils.assert_current_url(self.chrome, expected_url='https://www.facebook.com/fashiondays.romania/')
         TestUtils.assert_page_title(self.chrome, expected_title='Fashion Days | Bucharest')
@@ -148,9 +148,9 @@ class MainPageTests(MainPageSetupAndTearDown):
 
     # Test case: Verify the Instagram link
     def test_verify_instagram_link(self):
-        TestUtils.scroll_to_element(self.chrome, element=self.INSTAGRAM)
+        TestUtils.move_to_element(self.chrome, element=self.INSTAGRAM)
         TestUtils.click_element(self.chrome, element=self.INSTAGRAM)
-        TestUtils.switch_page(self.chrome, page_index=1)
+        TestUtils.switch_window(self.chrome, page_index=1)
         TestUtils.assert_status_code(url='https://www.instagram.com/fashiondays/?hl=en', expected_code=200)
         TestUtils.assert_current_url(self.chrome, expected_url='https://www.instagram.com/fashiondays/?hl=en')
         TestUtils.assert_page_title(self.chrome, expected_title='Fashion Days (@fashiondays) • Instagram photos and videos')
@@ -158,9 +158,9 @@ class MainPageTests(MainPageSetupAndTearDown):
 
     # Test case: Verify the TikTok link
     def test_verify_tiktok_link(self):
-        TestUtils.scroll_to_element(self.chrome, element=self.TIKTOK)
+        TestUtils.move_to_element(self.chrome, element=self.TIKTOK)
         TestUtils.click_element(self.chrome, element=self.TIKTOK)
-        TestUtils.switch_page(self.chrome, page_index=1)
+        TestUtils.switch_window(self.chrome, page_index=1)
         TestUtils.assert_status_code(url='https://www.tiktok.com/@fashiondaysromania?lang=en', expected_code=200)
         TestUtils.assert_current_url(self.chrome, expected_url='https://www.tiktok.com/@fashiondaysromania?lang=en')
         TestUtils.assert_page_title(self.chrome, expected_title='Fashion Days (@fashiondaysromania) Official | TikTok')
