@@ -23,50 +23,112 @@ class MainPageTests(MainPageSetupAndTearDown):
         TestUtils.assert_current_url(self.chrome, expected_url='https://www.fashiondays.ro/t/barbati/')
         TestUtils.assert_page_title(self.chrome, expected_title='Colectii de moda pentru barbati')
 
-    # Test case: Click on "WOMEN" and verify the page URL
+
     def test_women_page_url(self):
+        """
+            Test case to verify that clicking on "FEMEI" redirects to the correct page and displays appropriate content.
+
+            Steps:
+                1. Click on the "FEMEI" link.
+                2. Verify the URL, status code, and page title.
+
+            Expected Result:
+                The user is redirected to the women's fashion page with the correct URL and page title.
+        """
         TestUtils.click_element(self.chrome, element=self.WOMEN)
         TestUtils.assert_status_code(url='https://www.fashiondays.ro/', expected_code=200)
         TestUtils.assert_current_url(self.chrome, expected_url='https://www.fashiondays.ro/')
         TestUtils.assert_page_title(self.chrome, expected_title='Colectii de moda pentru femei')
 
-    # Test case: Click on "BOYS" and verify the page URL
+
     def test_boys_page_url(self):
+        """
+            Test case to verify that clicking on "BAIETI" redirects to the correct page and displays appropriate content.
+
+            Steps:
+                1. Click on the "BAIETI" link.
+                2. Verify the URL, status code, and page title.
+
+            Expected Result:
+                The user is redirected to the boys fashion page with the correct URL and page title.
+        """
         TestUtils.click_element(self.chrome, element=self.BOYS)
         TestUtils.assert_status_code(url='https://www.fashiondays.ro/t/baieti/', expected_code=200)
         TestUtils.assert_current_url(self.chrome, expected_url='https://www.fashiondays.ro/t/baieti/')
         TestUtils.assert_page_title(self.chrome, expected_title='Destinatia de fashion #1 in Europa Centrala si de Est')
 
 
-    # Test case: Click on "FETE" and verify the page URL
     def test_girls_page_url(self):
+        """
+            Test case to verify that clicking on "FETE" redirects to the correct page and displays appropriate content.
+
+            Steps:
+                1. Click on the "FETE" link.
+                2. Verify the URL, status code, and page title.
+
+            Expected Result:
+                The user is redirected to the girls fashion page with the correct URL and page title.
+        """
         TestUtils.click_element(self.chrome, element=self.GIRLS)
         TestUtils.assert_status_code(url='https://www.fashiondays.ro/t/fete/', expected_code=200)
         TestUtils.assert_current_url(self.chrome, expected_url='https://www.fashiondays.ro/t/fete/')
         TestUtils.assert_page_title(self.chrome, expected_title='Destinatia de fashion #1 in Europa Centrala si de Est')
 
 
-    # Test case: Click on "AUTHENTICATION" and verify the page URL
     def test_authentication_page_url(self):
+        """
+            Test case to verify that clicking on "AUTHENTICATION" redirects to the correct page and displays appropriate content.
+
+            Steps:
+                1. Click on the "AUTHENTICATION" link.
+                2. Verify the URL, status code, and page title.
+
+            Expected Result:
+                The user is redirected to the authentication page with the correct URL and page title.
+        """
         TestUtils.click_element(self.chrome, element=self.AUTHENTICATION_PAGE)
         TestUtils.assert_status_code(url='https://www.fashiondays.ro/customer/authentication', expected_code=200)
         TestUtils.assert_current_url(self.chrome, expected_url='https://www.fashiondays.ro/customer/authentication')
         TestUtils.assert_page_title(self.chrome, expected_title='Destinatia de fashion #1 in Europa Centrala si de Est')
 
 
-    # Test case: Hover over clothing, click on dresses and verify the page URL
     def test_hover_over_clothing(self):
+        """
+            Test case to verify that hovering over "CLOTHING" and clicking on "DRESSES" redirects to the correct page and displays appropriate content.
+
+            Steps:
+                1. Hover over the "CLOTHING" section.
+                2. Click on the "DRESSES" link.
+                3. Verify the URL, page title and status code.
+
+            Expected Result:
+                The user is redirected to the dresses page with the correct URL, page title and status code.
+        """
         TestUtils.move_to_element(self.chrome, element=self.CLOTHING)
         TestUtils.click_element(self.chrome, element=self.DRESSES)
+        TestUtils.assert_status_code(url='https://www.fashiondays.ro/g/femei-/imbracaminte-rochii', expected_code=200)
         TestUtils.assert_current_url(self.chrome, expected_url='https://www.fashiondays.ro/g/femei-/imbracaminte-rochii')
+        TestUtils.assert_page_title(self.chrome, expected_title='Rochii Dama')
 
 
     # Test case: Hover over shoes, click on sandals and verify the page URL
     def test_hover_over_shoes(self):
+        """
+            Test case to verify that hovering over "SHOES" and clicking on "SANDALS" redirects to the correct page and displays appropriate content.
+
+            Steps:
+                1. Hover over the "SHOES" section.
+                2. Click on the "SANDALS" link.
+                3. Verify the URL, page title and status code.
+
+            Expected Result:
+                The user is redirected to the sandals page with the correct URL, page title and status code.
+        """
         TestUtils.move_to_element(self.chrome, element=self.SHOES)
         TestUtils.click_element(self.chrome, element=self.SANDALS)
+        TestUtils.assert_status_code(url='https://www.fashiondays.ro/g/femei-/incaltaminte-sandale', expected_code=200)
         TestUtils.assert_current_url(self.chrome, expected_url='https://www.fashiondays.ro/g/femei-/incaltaminte-sandale')
-
+        TestUtils.assert_page_title(self.chrome, expected_title='Sandale Dama')
 
     def test_check_under50_prices_outlet(self):
         """
@@ -83,6 +145,7 @@ class MainPageTests(MainPageSetupAndTearDown):
         TestUtils.move_to_element(self.chrome, element=self.OUTLET)
         TestUtils.click_element(self.chrome, element=self.UNDER50)
         TestUtils.assert_current_url(self.chrome, expected_url='https://www.fashiondays.ro/s/under-15-euro-menu-mmse-w')
+        TestUtils.assert_page_title(self.chrome, expected_title='Articole sub 50 lei')
         prices_list = self.chrome.find_elements(*self.OUTLET_PRICES)
         for price in prices_list:
             price_text = int(price.text.replace(' lei', ''))
@@ -105,7 +168,6 @@ class MainPageTests(MainPageSetupAndTearDown):
         TestUtils.assert_is_promotion_displayed(self.chrome, element=self.GOODBYE_SUMMER_PROMOTION)
 
 
-    # Test case: Verify the "anpc" link
     def test_anpc_sal_link(self):
         """
             Test case to verify that the "ANPC" link redirects to the correct page and displays accurate information about "SAL".
@@ -136,8 +198,19 @@ class MainPageTests(MainPageSetupAndTearDown):
                                       expected_text='Soluționarea Alternativă a Litigiilor')
 
 
-    # Test case: Verify the Facebook link
     def test_verify_facebook_link(self):
+        """
+            Test case to verify that the "FACEBOOK" link redirects to the correct page.
+
+            Steps:
+                1. Scroll to the "FACEBOOK" link on the main page.
+                2. Click on the "FACEBOOK" link.
+                3. Switch to the new browser tab that opens (page index 1).
+                4. Verify the URL, status code, and page title.
+
+            Expected Result:
+                The user is redirected to the "FACEBOOK" page with the correct URL, page title, and status code.
+        """
         TestUtils.move_to_element(self.chrome, element=self.FACEBOOK)
         TestUtils.click_element(self.chrome, element=self.FACEBOOK)
         TestUtils.switch_window(self.chrome, page_index=1)
@@ -146,8 +219,19 @@ class MainPageTests(MainPageSetupAndTearDown):
         TestUtils.assert_page_title(self.chrome, expected_title='Fashion Days | Bucharest')
 
 
-    # Test case: Verify the Instagram link
     def test_verify_instagram_link(self):
+        """
+            Test case to verify that the "INSTAGRAM" link redirects to the correct page.
+
+            Steps:
+                1. Scroll to the "INSTAGRAM" link on the main page.
+                2. Click on the "INSTAGRAM" link.
+                3. Switch to the new browser tab that opens (page index 1).
+                4. Verify the URL, status code, and page title.
+
+            Expected Result:
+                The user is redirected to the "INSTAGRAM" page with the correct URL, page title, and status code.
+        """
         TestUtils.move_to_element(self.chrome, element=self.INSTAGRAM)
         TestUtils.click_element(self.chrome, element=self.INSTAGRAM)
         TestUtils.switch_window(self.chrome, page_index=1)
@@ -156,8 +240,19 @@ class MainPageTests(MainPageSetupAndTearDown):
         TestUtils.assert_page_title(self.chrome, expected_title='Fashion Days (@fashiondays) • Instagram photos and videos')
 
 
-    # Test case: Verify the TikTok link
     def test_verify_tiktok_link(self):
+        """
+            Test case to verify that the "TIKTOK" link redirects to the correct page.
+
+            Steps:
+                1. Scroll to the "TIKTOK" link on the main page.
+                2. Click on the "TIKTOK" link.
+                3. Switch to the new browser tab that opens (page index 1).
+                4. Verify the URL, status code, and page title.
+
+            Expected Result:
+                The user is redirected to the "TIKTOK" page with the correct URL, page title, and status code.
+        """
         TestUtils.move_to_element(self.chrome, element=self.TIKTOK)
         TestUtils.click_element(self.chrome, element=self.TIKTOK)
         TestUtils.switch_window(self.chrome, page_index=1)

@@ -8,10 +8,12 @@ from selenium.webdriver.support import expected_conditions as EC
 
 class TestUtils:
 
+
     # This method clicks on an element
     @staticmethod
     def click_element(driver: WebDriver, element: tuple[str, str]):
         driver.find_element(*element).click()
+
 
     # This method checks that the expected url is the same as the actual url
     @staticmethod
@@ -19,11 +21,13 @@ class TestUtils:
         actual_url: str = driver.current_url
         assert expected_url == actual_url
 
+
     # This method checks that the expected page title is in the actual page title
     @staticmethod
     def assert_page_title(driver: WebDriver, expected_title: str):
         actual_title: str = driver.title
         assert expected_title in actual_title
+
 
     # This method checks that the expected status code is the same as the actual status code
     @staticmethod
@@ -31,11 +35,13 @@ class TestUtils:
         response = requests.head(url)
         assert expected_code == response.status_code
 
+
     # This method checks that the element is displayed
     @staticmethod
     def assert_is_element_displayed(driver: WebDriver, element: tuple[str, str]):
         is_element_displayed: bool = driver.find_element(*element).is_displayed()
         assert is_element_displayed, f"Element {element} is not displayed"
+
 
     # This method inputs an email on an email element,
     #                a password in a password element,
@@ -47,6 +53,7 @@ class TestUtils:
         if password_element is not None:
             driver.find_element(*password_element).send_keys(password_text)
         driver.find_element(*login_button_element).click()
+
 
     # This method uses an explicit wait until an element is visible
     @staticmethod
@@ -68,6 +75,7 @@ class TestUtils:
         action_chains = ActionChains(driver)
         action_chains.move_to_element(driver.find_element(*element)).perform()
 
+
     # This method checks that a promotion is still available
     @staticmethod
     def assert_is_promotion_displayed(driver: WebDriver, element: tuple[str, str]):
@@ -78,6 +86,7 @@ class TestUtils:
             assert promotion_display, f'{unavailable}'
         except NoSuchElementException:
             pass
+
 
     # This method switches the browser window to a desired one
     @staticmethod

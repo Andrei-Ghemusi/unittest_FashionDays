@@ -1,18 +1,14 @@
-from typing import Tuple
 from unittest import TestCase
-
-from selenium.webdriver import ActionChains
-from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium import webdriver
 import subprocess
 import os
+from main.utility_methods import TestUtils
 
 
 class NonFunctionalTestsMainPage(TestCase):
-    action_chains: ActionChains
     PERFORMANCE: tuple[str, str] = (By.XPATH, '//*[@id="performance"]/div[1]/div[1]/div[1]/a/div[2]')
     ACCESSIBILITY: tuple[str, str] = (By.XPATH, '//*[@id="accessibility"]/div[1]/div[1]/a/div[2]')
     BEST_PRACTICES: tuple[str, str] = (By.XPATH, '//*[@id="best-practices"]/div[1]/div[1]/a/div[2]')
@@ -24,7 +20,7 @@ class NonFunctionalTestsMainPage(TestCase):
 
     @classmethod
     def generate_lighthouse_report(cls):
-        lighthouse_command: str = "lighthouse https://www.fashiondays.ro/ --output=html --quiet --output-path=reports\\lighthouse_report.html"
+        lighthouse_command: str = "lighthouse --throttling.cpuSlowdownMultiplier=3 https://www.fashiondays.ro/ --output=html --quiet --output-path=reports\\lighthouse_report.html"
         subprocess.run(lighthouse_command, shell=True)
         # here we first run command to run lighthouse and to also generate a html report
         # I used the 'setUpClass' class method to have my lighthouse report generated only once and not for every test
@@ -50,10 +46,6 @@ class NonFunctionalTestsMainPage(TestCase):
         self.chrome.get(report_url)
         # now we open the html report
 
-    # this method is made to scroll to elements that we want
-    def scroll_to_element(self, element):
-        self.action_chains = ActionChains(self.chrome)
-        self.action_chains.move_to_element(element).perform()
 
     """
     !!! REMINDER !!!
@@ -61,39 +53,34 @@ class NonFunctionalTestsMainPage(TestCase):
     In real life scenarios the expected number will, of course, change.
     """
 
-    # this method is made to check if the actual score is equal or greater than the expected one
+    # This method is made to check if the actual score is equal or greater than the expected one
     def assert_score(self, element, expected_score):
-        actual_score: int = int(element.text)
+        full_element: WebElement = self.chrome.find_element(*element)
+        actual_score: int = int(full_element.text)
         self.assertGreaterEqual(actual_score, expected_score, f'ERROR: was expected the score to be at least {expected_score}, but got {actual_score}')
         # when called this method will take 2 arguments, our element - which gets parsed to integer to the actual score value - and the second element which is the expected score
 
-    # this method checks the performance score
+
+    # This method checks the performance score
     def test_performance_score(self):
-        performance_score: WebElement = self.chrome.find_element(*self.PERFORMANCE)
-        self.scroll_to_element(performance_score)
+        TestUtils.move_to_element(self.chrome, element=self.PERFORMANCE)
         # here we called the scroll_to_element method to scroll to the performance score element
-        self.assert_score(performance_score, 1)
+        self.assert_score(element=self.PERFORMANCE, expected_score=1)
         # then we call the assert_score method to check if the actual score is greater or equal to the expected one
 
-    # this method checks the accessibility score
+    # This method checks the accessibility score
     def test_accessibility_score(self):
-        accessibility_score: WebElement = self.chrome.find_element(*self.ACCESSIBILITY)
-        self.scroll_to_element(accessibility_score)
-        self.assert_score(accessibility_score, 1)
+        TestUtils.move_to_element(self.chrome, element=self.ACCESSIBILITY)
+        self.assert_score(element=self.ACCESSIBILITY, expected_score=1)
+
 
     # this method checks the best practices score
     def test_best_practices_score(self):
-        best_practices_score: WebElement = self.chrome.find_element(*self.BEST_PRACTICES)
-        self.scroll_to_element(best_practices_score)
-        self.assert_score(best_practices_score, 1)
+        TestUtils.move_to_element(self.chrome, element=self.BEST_PRACTICES)
+        self.assert_score(element=self.BEST_PRACTICES, expected_score=1)
+
 
     # this method checks the seo score
     def test_seo_score(self):
-        seo_score: WebElement = self.chrome.find_element(*self.SEO)
-        self.scroll_to_element(seo_score)
-        self.assert_score(seo_score, 1)
-
-
-
-
-
+        TestUtils.move_to_element(self.chrome, element=self.SEO)
+        self.assert_score(element=self.SEO, expected_score=1)

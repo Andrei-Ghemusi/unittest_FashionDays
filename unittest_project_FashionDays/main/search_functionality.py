@@ -1,14 +1,10 @@
 import time
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.remote.webelement import WebElement
-
 from main.setups import MainPageSetupAndTearDown
 from selenium.webdriver import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import unittest
-import requests
 
 
 class SearchFunctionalityTests(MainPageSetupAndTearDown):
