@@ -61,12 +61,9 @@ class PositiveTestsAuthenticationPage(AuthenticationPageSetupAndTearDown):
             Expected Result:
                 Logging in with valid credentials should result in a successful login and the account status should be logged in.
         """
-        TestUtils.send_email_and_password_keys(self.chrome,
-                                               email_element=self.EMAIL,
-                                               password_element=self.PASSWORD,
-                                               login_button_element=self.LOGIN_BUTTON,
-                                               email_text='pythontestemail083@gmail.com',
-                                               password_text='TestEmail123')
+        TestUtils.send_email_and_password_keys(self.chrome, login_button_element=self.LOGIN_BUTTON,
+                                               email_element=self.EMAIL, email_text='pythontestemail083@gmail.com',
+                                               password_element=self.PASSWORD, password_text='TestEmail123')
         self.account_status_check()
 
 
@@ -82,12 +79,9 @@ class PositiveTestsAuthenticationPage(AuthenticationPageSetupAndTearDown):
         Expected Result:
             Logging in with correct email and incorrect password should display an error message indicating incorrect credentials.
         """
-        TestUtils.send_email_and_password_keys(self.chrome,
-                                               email_element=self.EMAIL,
-                                               password_element=self.PASSWORD,
-                                               login_button_element=self.LOGIN_BUTTON,
-                                               email_text='pythontestemail083@gmail.com',
-                                               password_text='password')
+        TestUtils.send_email_and_password_keys(self.chrome, login_button_element=self.LOGIN_BUTTON,
+                                               email_element=self.EMAIL, email_text='pythontestemail083@gmail.com',
+                                               password_element=self.PASSWORD, password_text='password')
         TestUtils.assert_text_message(self.chrome,
                                       self.EMAIL_ERROR,
                                       expected_text='Adresa de email sau parola este incorecta. Te rugam sa introduci o alta combinatie.')
@@ -114,12 +108,10 @@ class PositiveTestsAuthenticationPage(AuthenticationPageSetupAndTearDown):
         popup_window_handle = all_handles[-1]
         self.chrome.switch_to.window(popup_window_handle)
         TestUtils.click_element(self.chrome, self.FACEBOOK_COOKIES)
-        TestUtils.send_email_and_password_keys(self.chrome,
+        TestUtils.send_email_and_password_keys(self.chrome, login_button_element=self.FACEBOOK_POP_UP_LOGIN,
                                                email_element=self.FACEBOOK_EMAIL,
-                                               password_element=self.FACEBOOK_PASSWORD,
-                                               login_button_element=self.FACEBOOK_POP_UP_LOGIN,
                                                email_text='pythontestemail083@gmail.com',
-                                               password_text='TestEmail123')
+                                               password_element=self.FACEBOOK_PASSWORD, password_text='TestEmail123')
         time.sleep(5) # I added a sleep of 5 here because it takes a while for facebook to log in and I could not see where I could add an explicit wait
         main_handle = all_handles[0]
         self.chrome.switch_to.window(main_handle)
@@ -187,10 +179,8 @@ class NegativeTestsAuthenticationPage(AuthenticationPageSetupAndTearDown):
                 An error message should appear indicating that the password field is required.
         """
         # Enter valid email and click login
-        TestUtils.send_email_and_password_keys(self.chrome,
-                                               email_element=self.EMAIL,
-                                               email_text='pythontestemail083@gmail.com',
-                                               login_button_element=self.LOGIN_BUTTON)
+        TestUtils.send_email_and_password_keys(self.chrome, login_button_element=self.LOGIN_BUTTON,
+                                               email_element=self.EMAIL, email_text='pythontestemail083@gmail.com')
         # Assert error message for missing password
         TestUtils.assert_text_message(self.chrome,
                                       text_element=self.PASSWORD_ERROR,
@@ -208,10 +198,8 @@ class NegativeTestsAuthenticationPage(AuthenticationPageSetupAndTearDown):
                 An error message should appear indicating that the email field is required.
         """
         # Enter password and click login
-        TestUtils.send_email_and_password_keys(self.chrome,
-                                               password_element=self.PASSWORD,
-                                               password_text='TestEmail123',
-                                               login_button_element=self.LOGIN_BUTTON)
+        TestUtils.send_email_and_password_keys(self.chrome, login_button_element=self.LOGIN_BUTTON,
+                                               password_element=self.PASSWORD, password_text='TestEmail123')
         # Assert error message for missing email
         TestUtils.assert_text_message(self.chrome,
                                       text_element=self.EMAIL_ERROR,
@@ -230,12 +218,9 @@ class NegativeTestsAuthenticationPage(AuthenticationPageSetupAndTearDown):
                 An error message should appear indicating that the email format is invalid.
         """
         # Enter invalid email and password and click login
-        TestUtils.send_email_and_password_keys(self.chrome,
-                                               email_element=self.EMAIL,
-                                               email_text='wrong_username',
-                                               password_element=self.PASSWORD,
-                                               password_text='password',
-                                               login_button_element=self.LOGIN_BUTTON)
+        TestUtils.send_email_and_password_keys(self.chrome, login_button_element=self.LOGIN_BUTTON,
+                                               email_element=self.EMAIL, email_text='wrong_username',
+                                               password_element=self.PASSWORD, password_text='password')
         # Assert error message for invalid email format
         TestUtils.assert_text_message(self.chrome,
                                       text_element=self.EMAIL_ERROR,
@@ -254,12 +239,9 @@ class NegativeTestsAuthenticationPage(AuthenticationPageSetupAndTearDown):
                 An error message should appear indicating that the email format is invalid.
         """
         # Enter email and password with special characters and click login
-        TestUtils.send_email_and_password_keys(self.chrome,
-                                               email_element=self.EMAIL,
-                                               email_text='hgsyf$$%435@ii&&*)()u.com',
-                                               password_element=self.PASSWORD,
-                                               password_text='paerugehr#$5^.35>>>',
-                                               login_button_element=self.LOGIN_BUTTON)
+        TestUtils.send_email_and_password_keys(self.chrome, login_button_element=self.LOGIN_BUTTON,
+                                               email_element=self.EMAIL, email_text='hgsyf$$%435@ii&&*)()u.com',
+                                               password_element=self.PASSWORD, password_text='paerugehr#$5^.35>>>')
         # Assert error message for invalid email format
         TestUtils.assert_text_message(self.chrome,
                                       text_element=self.EMAIL_ERROR,

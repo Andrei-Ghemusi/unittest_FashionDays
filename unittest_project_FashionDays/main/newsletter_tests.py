@@ -118,9 +118,9 @@ class PositiveNewsletterTests(MainPageSetupAndTearDown):
         """
         TestUtils.move_to_element(self.chrome, self.FOR_MEN_SUBMIT)
         TestUtils.click_element(self.chrome, self.CHECKBOX_AGE)
-        TestUtils.send_email_and_password_keys(self.chrome, email_element=self.NEWSLETTER_EMAIL,
-                                               email_text='pythontestemail083@gmail.com',
-                                               login_button_element=self.FOR_MEN_SUBMIT)
+        TestUtils.send_email_and_password_keys(self.chrome, login_button_element=self.FOR_MEN_SUBMIT,
+                                               email_element=self.NEWSLETTER_EMAIL,
+                                               email_text='pythontestemail083@gmail.com')
         TestUtils.assert_is_element_displayed(self.chrome, self.CAPTCHA)
 
 
@@ -139,9 +139,9 @@ class PositiveNewsletterTests(MainPageSetupAndTearDown):
         """
         TestUtils.move_to_element(self.chrome, self.FOR_WOMEN_SUBMIT)
         TestUtils.click_element(self.chrome, self.CHECKBOX_AGE)
-        TestUtils.send_email_and_password_keys(self.chrome, email_element=self.NEWSLETTER_EMAIL,
-                                               email_text='pythontestemail083@gmail.com',
-                                               login_button_element=self.FOR_WOMEN_SUBMIT)
+        TestUtils.send_email_and_password_keys(self.chrome, login_button_element=self.FOR_WOMEN_SUBMIT,
+                                               email_element=self.NEWSLETTER_EMAIL,
+                                               email_text='pythontestemail083@gmail.com')
         TestUtils.assert_is_element_displayed(self.chrome, self.CAPTCHA)
 
 
@@ -203,10 +203,8 @@ class NegativeNewsletterTests(MainPageSetupAndTearDown):
         """
         TestUtils.move_to_element(self.chrome, self.FOR_WOMEN_SUBMIT)
         TestUtils.click_element(self.chrome, self.CHECKBOX_AGE)
-        TestUtils.send_email_and_password_keys(self.chrome,
-                                               email_element=self.NEWSLETTER_EMAIL,
-                                               email_text='wrong-email',
-                                               login_button_element=self.FOR_WOMEN_SUBMIT)
+        TestUtils.send_email_and_password_keys(self.chrome, login_button_element=self.FOR_WOMEN_SUBMIT,
+                                               email_element=self.NEWSLETTER_EMAIL, email_text='wrong-email')
         TestUtils.assert_text_message(self.chrome,
                                       text_element=self.MAIL_NEWSLETTER_ERROR,
                                       expected_text='Te rugam sa introduci o adresa de email valida.')
@@ -225,10 +223,8 @@ class NegativeNewsletterTests(MainPageSetupAndTearDown):
                 Providing an invalid email and clicking on 'Submit for Women' with checkbox off should display the error message.
         """
         TestUtils.move_to_element(self.chrome, self.FOR_WOMEN_SUBMIT)
-        TestUtils.send_email_and_password_keys(self.chrome,
-                                               email_element=self.NEWSLETTER_EMAIL,
-                                               email_text='wrong-email',
-                                               login_button_element=self.FOR_WOMEN_SUBMIT)
+        TestUtils.send_email_and_password_keys(self.chrome, login_button_element=self.FOR_WOMEN_SUBMIT,
+                                               email_element=self.NEWSLETTER_EMAIL, email_text='wrong-email')
         TestUtils.assert_text_message(self.chrome,
                                       text_element=self.MAIL_NEWSLETTER_ERROR,
                                       expected_text='Te rugam sa introduci o adresa de email valida.')
@@ -249,10 +245,9 @@ class NegativeNewsletterTests(MainPageSetupAndTearDown):
         """
         TestUtils.move_to_element(self.chrome, self.FOR_WOMEN_SUBMIT)
         TestUtils.click_element(self.chrome, self.CHECKBOX_AGE)
-        TestUtils.send_email_and_password_keys(self.chrome,
+        TestUtils.send_email_and_password_keys(self.chrome, login_button_element=self.FOR_WOMEN_SUBMIT,
                                                email_element=self.NEWSLETTER_EMAIL,
-                                               email_text='#@$@#%^&^*&(%%#$@#12335.gf.sgs',
-                                               login_button_element=self.FOR_WOMEN_SUBMIT)
+                                               email_text='#@$@#%^&^*&(%%#$@#12335.gf.sgs')
         TestUtils.assert_text_message(self.chrome,
                                       text_element=self.MAIL_NEWSLETTER_ERROR,
                                       expected_text='Te rugam sa introduci o adresa de email valida.')
@@ -271,10 +266,9 @@ class NegativeNewsletterTests(MainPageSetupAndTearDown):
                 Providing an invalid email with special characters and clicking on 'Submit for Women' with checkbox off should display the error message.
         """
         TestUtils.move_to_element(self.chrome, self.FOR_WOMEN_SUBMIT)
-        TestUtils.send_email_and_password_keys(self.chrome,
+        TestUtils.send_email_and_password_keys(self.chrome, login_button_element=self.FOR_WOMEN_SUBMIT,
                                                email_element=self.NEWSLETTER_EMAIL,
-                                               email_text='#@$@#%^&^*&(%%#$@#12335.gf.sgs',
-                                               login_button_element=self.FOR_WOMEN_SUBMIT)
+                                               email_text='#@$@#%^&^*&(%%#$@#12335.gf.sgs')
         TestUtils.assert_text_message(self.chrome,
                                       text_element=self.MAIL_NEWSLETTER_ERROR,
                                       expected_text='Te rugam sa introduci o adresa de email valida.')
@@ -293,10 +287,9 @@ class NegativeNewsletterTests(MainPageSetupAndTearDown):
                 Providing a correct email and clicking on 'Submit for Women' with checkbox off should display the age restriction error message.
         """
         TestUtils.move_to_element(self.chrome, self.FOR_WOMEN_SUBMIT)
-        TestUtils.send_email_and_password_keys(self.chrome,
+        TestUtils.send_email_and_password_keys(self.chrome, login_button_element=self.FOR_WOMEN_SUBMIT,
                                                email_element=self.NEWSLETTER_EMAIL,
-                                               email_text='pythontestemail083@gmail.com',
-                                               login_button_element=self.FOR_WOMEN_SUBMIT)
+                                               email_text='pythontestemail083@gmail.com')
         TestUtils.assert_text_message(self.chrome,
                                       text_element=self.NO_CHECKBOX_ERROR,
                                       expected_text='Trebuie sa ai cel putin 16 ani pentru a te abona.')

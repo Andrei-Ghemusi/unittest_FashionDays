@@ -1,5 +1,5 @@
 from selenium.common import NoSuchElementException
-from selenium.webdriver import ActionChains
+from selenium.webdriver import ActionChains, Keys
 from selenium.webdriver.remote.webdriver import WebDriver
 import requests
 from selenium.webdriver.remote.webelement import WebElement
@@ -47,12 +47,13 @@ class TestUtils:
     #                a password in a password element,
     #                and clicks a (login or not) button.
     @staticmethod
-    def send_email_and_password_keys(driver: WebDriver, login_button_element: tuple[str, str], email_element: tuple[str, str] = None, email_text: str = None, password_element: tuple[str, str] =None, password_text: str = None):
+    def send_email_and_password_keys(driver: WebDriver, login_button_element: tuple[str, str] = None, email_element: tuple[str, str] = None, email_text: str = None, password_element: tuple[str, str] =None, password_text: str = None):
         if email_element is not None:
             driver.find_element(*email_element).send_keys(email_text)
         if password_element is not None:
             driver.find_element(*password_element).send_keys(password_text)
-        driver.find_element(*login_button_element).click()
+        if login_button_element is not None:
+            driver.find_element(*login_button_element).click()
 
 
     # This method uses an explicit wait until an element is visible
@@ -95,6 +96,14 @@ class TestUtils:
         driver.switch_to.window(page)
 
 
+    @staticmethod
+    def assert_values(driver: WebDriver, element: tuple[str, str], expected_value: int):
+        actual_value = int(driver.find_element(*element).text)
+        assert expected_value == actual_value, f'ERROR, expected value {expected_value}, but got {actual_value} instead'
+
+    @staticmethod
+    def press_enter(driver: WebDriver, element: tuple[str, str]):
+        driver.find_element(*element).send_keys(Keys.ENTER)
 
 
 
