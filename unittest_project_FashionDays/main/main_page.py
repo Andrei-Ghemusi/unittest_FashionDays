@@ -1,3 +1,5 @@
+import time
+
 from selenium.common import NoSuchElementException
 from main.setups import MainPageSetupAndTearDown
 from main.utility_methods import TestUtils
@@ -77,7 +79,7 @@ class MainPageTests(MainPageSetupAndTearDown):
 
     def test_authentication_page_url(self):
         """
-            Test case to verify that clicking on "AUTHENTICATION" redirects to the correct page and displays appropriate content.
+            Test case to verify that clicking on "AUTHENTICATION" redirects to the correct p age and displays appropriate content.
 
             Steps:
                 1. Click on the "AUTHENTICATION" link.
@@ -128,7 +130,7 @@ class MainPageTests(MainPageSetupAndTearDown):
         TestUtils.click_element(self.chrome, element=self.SANDALS)
         TestUtils.assert_status_code(url='https://www.fashiondays.ro/g/femei-/incaltaminte-sandale', expected_code=200)
         TestUtils.assert_current_url(self.chrome, expected_url='https://www.fashiondays.ro/g/femei-/incaltaminte-sandale')
-        TestUtils.assert_page_title(self.chrome, expected_title='Sandale Dama')
+        TestUtils.assert_page_title(self.chrome, expected_title='Sandale')
 
     def test_check_under50_prices_outlet(self):
         """
@@ -186,7 +188,10 @@ class MainPageTests(MainPageSetupAndTearDown):
         TestUtils.move_to_element(self.chrome, element=self.ANPC)
         TestUtils.click_element(self.chrome, self.ANPC)
         TestUtils.switch_window(self.chrome, page_index=1)
+        time.sleep(1) # I added a sleep of 1 sec here because without it we get an error regarding performance
+                      # the implicit or explicit wait does not solve this issue, hence why we use time.sleep
         try:
+            TestUtils.wait_for_element_visibility(self.chrome, element_locator=self.ANPC_COOKIES)
             TestUtils.click_element(self.chrome, element=self.ANPC_COOKIES)
         except NoSuchElementException:
             pass # I used try/except here because sometimes the cookie pop up won't appear

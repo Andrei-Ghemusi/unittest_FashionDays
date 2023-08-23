@@ -1,7 +1,6 @@
 from unittest import TestCase
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
-from webdriver_manager.chrome import ChromeDriverManager
 from selenium import webdriver
 import subprocess
 import os
@@ -26,7 +25,7 @@ class NonFunctionalTestsMainPage(TestCase):
         # I used the 'setUpClass' class method to have my lighthouse report generated only once and not for every test
 
     def setUp(self):
-        self.chrome = webdriver.Chrome(executable_path=ChromeDriverManager().install())
+        self.chrome = webdriver.Chrome()
         self.chrome.maximize_window()
         self.get_html_report()
         # here we call the method to open the html report for every test

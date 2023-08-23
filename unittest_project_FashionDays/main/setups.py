@@ -3,7 +3,6 @@ from selenium import webdriver
 from selenium.common import NoSuchElementException
 from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.common.by import By
-from webdriver_manager.chrome import ChromeDriverManager
 import requests
 
 
@@ -11,6 +10,26 @@ import requests
 # It also contains all the tuples used for the tests on the Main Page
 class MainPageSetupAndTearDown(TestCase):
     chrome: WebDriver
+    SEARCH: tuple[str, str] = (By.XPATH, '//*[@id="mobile-search"]/span')
+    SEARCH_INPUT: tuple[str, str] = (By.XPATH, '//*[@id="search-input"]')
+    SEARCH_BUTTON: tuple[str, str] = (By.XPATH, '//*[@id="search-submit"]/span')
+    SECOND_HANDLE: tuple[str, str] = (By.XPATH, '//*[@id="slider-range"]/span[2]')
+    FIRST_HANDLE: tuple[str, str] = (By.XPATH, '//*[@id="slider-range"]/span[1]')
+    NO_PRODUCTS: tuple[str, str] = (By.XPATH, '//*[@id="products-listing-list"]/div/h2')
+    MARIMILE_TALE: tuple[str, str] = (By.XPATH, '//*[@id="f_1_9717FilterOptions"]/h2')
+    SLIPPERS: tuple[str, str] = (By.XPATH, '//*[@id="categoryOpt_350__SLIPPERS__11__FOOTWEAR"]/a')
+    DRESSES_CATEGORY: tuple[str, str] = (By.XPATH, '//*[@id="categoryOpt_19__DRESSES__4__CLOTHING"]/a')
+    SEARCH_ICON: tuple[str, str] = (By.XPATH, '//*[@id="search-submit"]/span')
+    SUGGESTION: tuple[str, str] = (By.XPATH, '//*[@id="search-container__results"]/li[1]')
+    FILTER_VALUE: tuple[str, str] = (By.XPATH, '//*[@id="amountMax"]')
+    NO_RESULTS: tuple[str, str] = (By.XPATH, '//*[@id="fallback-top-container"]/div[1]')
+    OUR_INPUT_DISPLAY: tuple[str, str] =(By.XPATH, '//*[@id="fallback-top-container"]/div[2]')
+    FOUND_NO_PRODUCTS: tuple[str, str] = (By.XPATH, '//*[text()="Nu au fost gasite produse."]')
+    RECOMMENDED_MESSAGE: tuple[str, str] = (By.XPATH, '//*[@id="fallback-top-container"]/div[3]')
+    RECOMMENDED_PRODUCT: tuple[str, str] = (By.XPATH, '//*[@class="carousel-builder-product-image"]')
+    RESULTS: tuple[str, str] = (By.XPATH, '//h2[@class="product-card-brand"]')
+    DELETE_ALL_CATEGORIES: tuple[str, str] = (By.XPATH, '//*[@id="categoryFilterOptions"]/a')
+
     AUTHENTICATION_PAGE: tuple[str, str] = (By.CSS_SELECTOR, '.icon-fdux_profile')
     CLOTHING: tuple[str, str] = (By.XPATH, '//*[@id="main-menu"]/div[2]/nav[1]/ul/li[2]/span')
     DRESSES: tuple[str, str] = (By.XPATH, '//*[@id="main-menu"]/div[2]/nav[1]/ul/li[2]/div/div[2]/a[2]/span[1]')
@@ -41,11 +60,11 @@ class MainPageSetupAndTearDown(TestCase):
     SITE_PROTECTION_TEXT: tuple[str, str]  = (By.XPATH, '//*[@id="newsletter-form"]/div[2]/div[3]/div[3]/small')
     PRIVACY_POLICY: tuple[str, str]  = (By.XPATH, '//*[@id="newsletter-form"]/div[2]/div[3]/div[3]/small/a[1]')
     TERMS_OF_SERVICE: tuple[str, str]  = (By.XPATH, '//*[@id="newsletter-form"]/div[2]/div[3]/div[3]/small/a[2]')
-    ANPC_COOKIES: tuple[str, str] = (By.XPATH, '//*[text()="Acceptă"]')
+    ANPC_COOKIES: tuple[str, str] = (By.XPATH, '//*[@id="cmplz-cookiebanner-container"]/div/div[6]/button[1]')
 
     # this is the setup method, it will run at the beginning of any test
     def setUp(self) -> None:
-        self.chrome = webdriver.Chrome(executable_path=ChromeDriverManager().install())
+        self.chrome = webdriver.Chrome()
         self.chrome.maximize_window()
         url = 'https://www.fashiondays.ro/'
         self.chrome.get(url)
@@ -86,7 +105,7 @@ class AuthenticationPageSetupAndTearDown(TestCase):
     CONTUL_MEU_TEXT: tuple[str, str] = (By.XPATH, '//*[text()="Contul Meu"]')
 
     def setUp(self) -> None:
-        self.chrome = webdriver.Chrome(executable_path=ChromeDriverManager().install())
+        self.chrome = webdriver.Chrome()
         self.chrome.maximize_window()
         url: str = 'https://www.fashiondays.ro/customer/authentication'
         self.chrome.get(url)

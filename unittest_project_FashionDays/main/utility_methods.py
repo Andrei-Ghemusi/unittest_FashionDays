@@ -26,7 +26,7 @@ class TestUtils:
     @staticmethod
     def assert_page_title(driver: WebDriver, expected_title: str):
         actual_title: str = driver.title
-        assert expected_title in actual_title
+        assert expected_title in actual_title, f'ERROR, expected {expected_title} but got {actual_title}'
 
 
     # This method checks that the expected status code is the same as the actual status code
@@ -47,13 +47,13 @@ class TestUtils:
     #                a password in a password element,
     #                and clicks a (login or not) button.
     @staticmethod
-    def send_email_and_password_keys(driver: WebDriver, login_button_element: tuple[str, str] = None, email_element: tuple[str, str] = None, email_text: str = None, password_element: tuple[str, str] =None, password_text: str = None):
-        if email_element is not None:
-            driver.find_element(*email_element).send_keys(email_text)
-        if password_element is not None:
-            driver.find_element(*password_element).send_keys(password_text)
-        if login_button_element is not None:
-            driver.find_element(*login_button_element).click()
+    def send_inputs_and_click(driver: WebDriver, button_element: tuple[str, str] = None, input_element_1: tuple[str, str] = None, input_text_1: str = None, input_element_2: tuple[str, str] =None, input_text_2: str = None):
+        if input_element_1 is not None:
+            driver.find_element(*input_element_1).send_keys(input_text_1)
+        if input_element_2 is not None:
+            driver.find_element(*input_element_2).send_keys(input_text_2)
+        if button_element is not None:
+            driver.find_element(*button_element).click()
 
 
     # This method uses an explicit wait until an element is visible
@@ -96,11 +96,14 @@ class TestUtils:
         driver.switch_to.window(page)
 
 
+    # this method asserts two values (integers)
     @staticmethod
     def assert_values(driver: WebDriver, element: tuple[str, str], expected_value: int):
         actual_value = int(driver.find_element(*element).text)
         assert expected_value == actual_value, f'ERROR, expected value {expected_value}, but got {actual_value} instead'
 
+
+    # this method presses enter
     @staticmethod
     def press_enter(driver: WebDriver, element: tuple[str, str]):
         driver.find_element(*element).send_keys(Keys.ENTER)
