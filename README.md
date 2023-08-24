@@ -1,10 +1,11 @@
 # FashionDays testing with unittest library
+In this project I will be conducting functional and non-functional tests on the FashionDays website using the python built-in testing framework **unittest**.
+WebSite tested: https://www.fashiondays.ro/
 
-In this project I will be testing certain aspects of FashionDays web page using unittest library.
+# Purpose
+The purpose of this project is to conduct functional tests such as, Smoke Testing, Sanity Testing, Regression Testing and Non-functional tests such as Performance Testing, Accessibility Testing, SEO testing, and to find the problems that appear as ERRORS, BUGs, FAILURES and to give Improvement suggestions.
 
-Site tested: https://www.fashiondays.ro/
-
-Project structure:
+# Project structure:
 - package called 'authentication_page' which contains:
     -  'positive_authentication_tests' which contains functional positive tests ran on the authentication page;
     -  'negative_authentication_tests' which contains functional negative tests ran on the authentication page;
@@ -28,26 +29,37 @@ Project structure:
 - python file called 'suite' which contains the test suite whose role is to run the entire project and generate an HTML report
 - python file called 'utility_methods' which contains the methods used throughout the project
 
-Libraries and packages used:
+# Libraries used:
 - unittest;
 - selenium;
-- webdriver_manager;
 - pytest;
 - time;
 - subprocess
 - os
-- ActionChains
 - HtmlTestRunner. ***This one might not work to pip install, if that's the case, the search for 'html-testRunner' in python packages then install it***
 
-How to run the project:
+# Installation:
+- pip install selenium;
+- pip install pytest;
+- pip install html-testRunner
+
+# Compatibility error-handling
+If you encounter compatibility issues with certain versions of the libraries try the following commands:
+- pip --upgrade selenium;
+- pip --upgrade pytest;
+- pip --upgrade html-testRunner;
+
+# How to run the project:
 - in 'suites' file, press the green arrow on the side of the class to run the whole project;
 - press the green arrow on the side of any method to only run that specific test.
+- opne the terminal, 
 
-
-ERRORS/BUGS/FAILURES/RECOMMENDED CHANGES
+# ERRORS/BUGS/FAILURES/RECOMMENDED CHANGES
 - The performance and accessibility of the website is quite lacking, this needs to be adressed
-- On the search bar, inputting nothing then pressing enter refreshes the page, but it does not display any message, I would recommend that a message as such "you need to enter a product name" is implemented is case the customer presses enter or clicks on the search icon, while having to written input in the search bar.
-- Price filter: when setting the price filter setting the drag and drop at the very end makes the filter to be set on 0 (in the code), but not visually, additionally, because selenium acts so fast while setting the drag and drop at 0, the visual price still remains at the max.
+
+- On the search bar, inputting nothing then pressing enter refreshes the page, but it does not display any message, I would recommend that a message as such "you need to enter a product name" is implemented in case the customer presses enter or clicks on the search icon, while having no written input in the search bar.
+
+- Price filter: when setting the price filter, setting the drag and drop at the very end makes the filter to be set on 0 (in the code), but not visually, additionally, because selenium acts so fast while setting the drag and drop at 0, the visual price still remains at the max.
   
   # !! REMINDER !!
   Some tests are run on certain timed campaigns and promotions, so when they expire the test will automatically enter 'except'.f
