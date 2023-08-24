@@ -1,11 +1,11 @@
 import time
 
 from selenium.common import NoSuchElementException
-from main.setups import MainPageSetupAndTearDown
-from main.utility_methods import TestUtils
+from setups import MainPageSetupAndTearDown
+from utility_methods import TestUtils
 
 
-# This class contains tests that are ran on the main page
+# This class contains tests that are ran on the main_page page
 class MainPageTests(MainPageSetupAndTearDown):
 
 
@@ -175,7 +175,7 @@ class MainPageTests(MainPageSetupAndTearDown):
             Test case to verify that the "ANPC" link redirects to the correct page and displays accurate information about "SAL".
 
             Steps:
-                1. Scroll to the "ANPC" link on the main page.
+                1. Scroll to the "ANPC" link on the main_page page.
                 2. Click on the "ANPC" link.
                 3. Switch to the new browser tab that opens (page index 1).
                 4. Accept cookies if the pop-up appears (hence why I used try/except).
@@ -208,7 +208,7 @@ class MainPageTests(MainPageSetupAndTearDown):
             Test case to verify that the "FACEBOOK" link redirects to the correct page.
 
             Steps:
-                1. Scroll to the "FACEBOOK" link on the main page.
+                1. Scroll to the "FACEBOOK" link on the main_page page.
                 2. Click on the "FACEBOOK" link.
                 3. Switch to the new browser tab that opens (page index 1).
                 4. Verify the URL, status code, and page title.
@@ -229,7 +229,7 @@ class MainPageTests(MainPageSetupAndTearDown):
             Test case to verify that the "INSTAGRAM" link redirects to the correct page.
 
             Steps:
-                1. Scroll to the "INSTAGRAM" link on the main page.
+                1. Scroll to the "INSTAGRAM" link on the main_page page.
                 2. Click on the "INSTAGRAM" link.
                 3. Switch to the new browser tab that opens (page index 1).
                 4. Verify the URL, status code, and page title.
@@ -250,7 +250,7 @@ class MainPageTests(MainPageSetupAndTearDown):
             Test case to verify that the "TIKTOK" link redirects to the correct page.
 
             Steps:
-                1. Scroll to the "TIKTOK" link on the main page.
+                1. Scroll to the "TIKTOK" link on the main_page page.
                 2. Click on the "TIKTOK" link.
                 3. Switch to the new browser tab that opens (page index 1).
                 4. Verify the URL, status code, and page title.

@@ -4,10 +4,10 @@ from selenium.webdriver.remote.webelement import WebElement
 from selenium import webdriver
 import subprocess
 import os
-from main.utility_methods import TestUtils
+from utility_methods import TestUtils
 
 
-class NonFunctionalTestsMainPage(TestCase):
+class NonFunctionalTestsAuthenticationPage(TestCase):
     PERFORMANCE: tuple[str, str] = (By.XPATH, '//*[@id="performance"]/div[1]/div[1]/div[1]/a/div[2]')
     ACCESSIBILITY: tuple[str, str] = (By.XPATH, '//*[@id="accessibility"]/div[1]/div[1]/a/div[2]')
     BEST_PRACTICES: tuple[str, str] = (By.XPATH, '//*[@id="best-practices"]/div[1]/div[1]/a/div[2]')
@@ -19,8 +19,12 @@ class NonFunctionalTestsMainPage(TestCase):
 
     @classmethod
     def generate_lighthouse_report(cls):
-        lighthouse_command: str = "lighthouse --throttling.cpuSlowdownMultiplier=3 https://www.fashiondays.ro/ --output=html --quiet --output-path=reports\\lighthouse_report.html"
+        base_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        report_path = os.path.join(base_path, 'reports', 'authentication_page_lighthouse_report.html')
+
+        lighthouse_command = f'lighthouse --throttling.cpuSlowdownMultiplier=3 https://www.fashiondays.ro/customer/authentication --output=html --quiet --output-path="{report_path}"'
         subprocess.run(lighthouse_command, shell=True)
+
         # here we first run command to run lighthouse and to also generate a html report
         # I used the 'setUpClass' class method to have my lighthouse report generated only once and not for every test
 
@@ -38,7 +42,7 @@ class NonFunctionalTestsMainPage(TestCase):
     def get_html_report(self):
         script_dir = os.path.dirname(os.path.abspath(__file__))
         # here we get the absolute path of the directory
-        report_path = os.path.join(script_dir, '..', 'main', 'reports', 'lighthouse_report.html')
+        report_path = os.path.join(script_dir, '..', 'reports', 'authentication_page_lighthouse_report.html')
         # here we make the relative path
         report_url: str = ('file:///' + report_path.replace('//', '/'))
         # we replace the single slash with doubles
