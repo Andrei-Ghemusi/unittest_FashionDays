@@ -53,13 +53,17 @@ If you encounter compatibility issues, you can try upgrading the libraries:
 - `pip install html-testRunner --upgrade`
 
 ## Running the Project
-- To run the entire project, execute the 'suite.py' file.
+- To run the entire project, execute the 'suite.py' file using the command 'pytest suite.py'.
 - To run specific tests, use the green arrow on the class or method you want to run.
 
 ## Known Issues and Recommendations
 - Address performance and accessibility issues on the website.
-- Implement a message for empty search input on the search bar.
-- Fix the price filter issue for more accurate filtering: when setting the price filter, setting the drag and drop at the very end makes the filter to be set on 0 (in the code), but not visually, additionally, because selenium acts so fast while setting the drag and drop at 0, the visual price still remains at the max.
+
+- Implement a message for empty search input on the search bar:
+  - On the search bar, inputting nothing then pressing enter refreshes the page, but it does not display any message, I would recommend that a message as such "you need to enter a product name" is implemented in case the customer presses enter or clicks on the search icon, while having no written input in the search bar.
+
+- Fix the price filter issue for more accurate filtering:
+  - when setting the price filter, setting the drag and drop at the very end makes the filter to be set on 0 (in the code), but not visually, additionally, because selenium acts so fast while setting the drag and drop at 0, the visual price still remains at the max.
 
 **REMINDER:** Some tests are tied to timed campaigns and promotions, so they might enter the 'except' state when these events expire.
 
