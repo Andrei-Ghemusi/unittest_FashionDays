@@ -3,6 +3,8 @@
 ## Introduction
 Welcome to the FashionDays Testing Project! In this project, I will be conducting comprehensive functional and non-functional tests on the FashionDays website using the powerful **unittest** testing framework.
 
+Link to project: https://github.com/Andrei-Ghemusi/unittest_project_FashionDays
+
 ## Purpose
 The primary purpose of this project is to conduct a wide range of tests to ensure the robustness and quality of the FashionDays website. These tests include functional tests such as Smoke Testing, Sanity Testing, and Regression Testing, as well as non-functional tests like Performance Testing, Accessibility Testing, and SEO Testing. The goal is to identify and address ERRORS, BUGS, FAILURES, and provide recommendations for improvements.
 
